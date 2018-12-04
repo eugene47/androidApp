@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.statistic:
                 fragment = new StatisticFragment();
                 break;
+            case R.id.calendar:
+                fragment = new CalendarFragment();
+                break;
             case R.id.logout:
                 logout();
                 break;
