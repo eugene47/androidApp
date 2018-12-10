@@ -10,15 +10,15 @@ public class User {
     @SerializedName("token")
     @Expose
     private String token;
-    private ArrayList<User> info;
+    private String[] current_day;
     private String full_name;
     private String username;
 
     public String getToken() {
         return token;
     }
-    public ArrayList<User> getInfo() {
-        return info;
+    public String[] getCurrentDay() {
+        return current_day;
     }
 
     public String getFullName() {

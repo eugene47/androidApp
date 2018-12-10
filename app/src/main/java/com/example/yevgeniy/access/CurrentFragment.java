@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,17 +26,16 @@ public class CurrentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getCurrentDay();
-        return inflater.inflate(R.layout.fragment_current, container, false);
+        View view = inflater.inflate(R.layout.fragment_current,container, false);
+
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle("Current day");
-    }
 
-    private void getCurrentDay() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(APIUrl.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -46,13 +47,18 @@ public class CurrentFragment extends Fragment {
 
         String token = sharedPreferences.getString(TOKEN, "");
 
-        Call<User> call = service.getInfo("Bearer "+token);
+        Call<User> call = service.getCurrentDay("Bearer "+token);
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                Toast.makeText(getActivity().getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
                 if (response.code() == 200) {
+                    String[] menuItems = {"Item1", "Item2", "Blabla"};
 
+                    ListView listView = (ListView) getActivity().findViewById(R.id.dayArray);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,menuItems);
+                    listView.setAdapter(adapter);
                 }
             }
 
